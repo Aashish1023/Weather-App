@@ -1,3 +1,5 @@
+import tkinter as tk
+from tkinter import messagebox
 import requests
 
 API_KEY = "cfa43beabff99902bd4ad04c8abad5a0"
