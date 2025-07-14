@@ -1,9 +1,12 @@
 import tkinter as tk
 from tkinter import messagebox
+from PIL import Image, ImageTk
 import requests
+from io import BytesIO
 
 API_KEY = "cfa43beabff99902bd4ad04c8abad5a0"
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
+ICON_URL = "http://openweathermap.org/img/wn/{}@2x.png"
 
 # Function to get weather data
 def get_weather():
@@ -26,15 +29,27 @@ def get_weather():
             feels_like = data["main"]["feels_like"]
             weather = data["weather"][0]["description"]
             humidity = data["main"]["humidity"]
-            # wind = data["wind"]["speed"]
+            wind = data["wind"]["speed"]
+            icon_code = data["weather"][0]["icon"]
 
+            # Weather icon next to tet in GUP app
+            icon_url = ICON_URL.format(icon_code)
+            icon_response = requests.get(icon_url)
+            icon_data = icon_response.content
+            icon_image = Image.open(BytesIO(icon_data)).resize((100, 100), Image.Resampling.LANCZOS)
+            icon = ImageTk.PhotoImage(icon_image)
+
+            icon_label.config(image=icon)
+            icon_label.image = icon
+            
             result = (
-                f"Weather in {city.capitalize()}:\n"
-                f"Temperature: {temp}°C\n"
+                f"📍Weather in {city.capitalize()}:\n"
+                f"🌡️Temperature: {temp}°C\n"
                 f"Feels Like: {feels_like}°C\n"
-                f"Weather: {weather.capitalize()}\n"
-                f"Humidity: {humidity}%"
-                # f"Wind Speed: {wind} m/s"
+                f"🌦️Weather: {weather.capitalize()}\n"
+                f"💧Humidity: {humidity}%"\
+                f"🍃Wind Speed: {wind} m/s"
+                
             )
             result_label.config(text=result)
         else:
@@ -42,10 +57,6 @@ def get_weather():
 
     except Exception as e:
         messagebox.showerror("Error", f"An error occurred: {str(e)}")
-
-        # print("City not found or API request failed. Please check the city name and try again.")
-        # print(f"Error Code: {response.status_code}")
-        # print(f"Error Message: {response.text}")
 
 # ----- GUI Setup -----
 root = tk.Tk()
@@ -65,6 +76,10 @@ city_entry.focus()
 # Get Weather Button
 get_btn = tk.Button(root, text="Get Weather", font=("Helvetica", 14), bg="#61dafb", fg="black", command=get_weather)
 get_btn.pack(pady=10)
+
+# 🧠 This MUST exist before config
+icon_label = tk.Label(root, bg="#282c34")
+icon_label.pack(pady=5)
 
 # Result Label
 result_label = tk.Label(root, font=("Helvetica", 14), bg="#282c34", fg="white", justify="left", wraplength=350)
