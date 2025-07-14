@@ -43,9 +43,6 @@ def get_weather():
                 bg_path = "backgrounds/rainy.png"
             elif "clear" in weather or "sunny" in weather:
                 bg_path = "backgrounds/sunny.png"
-            else:
-                bg_path = "backgrounds/default.png"
-
 
             # 🔄 Load and set background
             bg_img = Image.open(bg_path).resize((400, 500), Image.Resampling.LANCZOS)
@@ -83,8 +80,17 @@ root.title("Weather App")
 root.geometry("400x400")
 root.configure(bg="#282c34")
 
+# Display Background as a Label
+bg_label = tk.Label(root)
+bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+
+# Background Image
+bg_path = "backgrounds/default.png"  # Set default background path
+bg_image = Image.open(bg_path).resize((400, 500), Image.Resampling.LANCZOS)
+bg_photo = ImageTk.PhotoImage(bg_image)
+
 # Title
-title = tk.Label(root, text="🌤️ Weather App", font=("Helvetica", 20, "bold"), bg="#282c34", fg="white")
+title = tk.Label(root, text="🌤️ Weather App", font=("Helvetica", 20, "bold"), bg="#5777b8", fg="white")
 title.pack(pady=10)
 
 # City Entry
@@ -93,26 +99,17 @@ city_entry.pack(pady=10)
 city_entry.focus()
 
 # Get Weather Button
-get_btn = tk.Button(root, text="Get Weather", font=("Helvetica", 14), bg="#61dafb", fg="black", command=get_weather)
-get_btn.pack(pady=10)
+get_btn = tk.Button(root, text="Get Weather", font=("Helvetica", 14), bg="#3470b4", fg="black", command=get_weather)
+get_btn.pack(pady=10) 
+
 
 # 🧠 This MUST exist before config
-icon_label = tk.Label(root, bg="#282c34")
+icon_label = tk.Label(root, bg="#416abd")
 icon_label.pack(pady=5)
 
 # Result Label
-result_label = tk.Label(root, font=("Helvetica", 14), bg="#282c34", fg="white", justify="left", wraplength=350)
+result_label = tk.Label(root, font=("Helvetica", 14), bg="#416abd", fg="white", justify="left", wraplength=350)
 result_label.pack(pady=20)
-
-# Background Image
-bg_path = "backgrounds/default.png"  # Set default background path
-bg_image = Image.open(bg_path).resize((400, 500), Image.Resampling.LANCZOS)
-bg_photo = ImageTk.PhotoImage(bg_image)
-
-
-#Display Background as a Label
-bg_label = tk.Label(root)
-bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
 # Run the App
 root.mainloop()
