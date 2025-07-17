@@ -61,9 +61,9 @@ def get_weather():
             result = (
                 f"📍Weather in {city.capitalize()}:\n"
                 f"🌡️Temperature: {temp}°C\n"
-                f"Feels Like: {feels_like}°C\n"
+                f"😌Feels Like: {feels_like}°C\n"
                 f"🌦️Weather: {weather.capitalize()}\n"
-                f"💧Humidity: {humidity}%"\
+                f"💧Humidity: {humidity}%\n"
                 f"🍃Wind Speed: {wind} m/s"
                 
             )
